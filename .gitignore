@@ -1,3 +1,4 @@
 .idea
 .ipynb_checkpoints
 venv
+kafka_producer/__pycache__
