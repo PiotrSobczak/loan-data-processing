@@ -1,19 +1,25 @@
 import findspark
 findspark.init()
 
-import pyspark
-import random
+#    Spark
+from pyspark import SparkContext, SparkConf
+#    Spark Streaming
+from pyspark.streaming import StreamingContext
+#    Kafka
+from pyspark.streaming.kafka import KafkaUtils
+#    json parsing
+import json
 
-sc = pyspark.SparkContext(appName="Pi")
-num_samples = 100000000
 
-def inside(p):
-  x, y = random.random(), random.random()
-  return x*x + y*y < 1
+sc = SparkContext(appName="PythonSparkStreamingKafka_RM_01")
+sc.setLogLevel("WARN")
 
-count = sc.parallelize(range(0, num_samples)).filter(inside).count()
+ssc = StreamingContext(sc, 1)
 
-pi = 4 * count / num_samples
-print(pi)
+kafkaStream = KafkaUtils.createStream(ssc, 'localhost:2181', 'kafka-to-hdfs', {'loans':1})
+kafkaStream.pprint()
+# parsed = kafkaStream.map(lambda v: json.loads(v[1]))
+# parsed.count().map(lambda x:'Tweets in this batch: %s' % x).pprint()
 
-sc.stop()
+ssc.start()
+ssc.awaitTermination()
