@@ -24,7 +24,7 @@ def process_df(df):
 if __name__ == "__main__":
     producer = KafkaProducer(
         bootstrap_servers=BOOTSTRAP_SERVERS,
-        value_serializer=lambda m: json.dumps(m).encode('ascii')
+        value_serializer=lambda m: m.encode('utf-8')
     )
 
     df = pd.read_csv(CSV_FILE, low_memory=False)
@@ -33,6 +33,7 @@ if __name__ == "__main__":
 
     for json_msg in iterator():
         producer.send(TOPIC_NAME, json_msg)
+        print(json_msg)
         time.sleep(SLEEP_INTERVAL)
 
 
