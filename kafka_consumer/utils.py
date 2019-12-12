@@ -1,5 +1,8 @@
 import json
 
+import findspark
+findspark.init()
+
 from pyspark.sql.types import *
 
 
@@ -11,7 +14,7 @@ def generate_schema_from_json(spark_session, path):
     return spark_session.read.json(path).schema
 
 
-def spark_to_hive_type_mapping(spark_type):
+def map_spark_types_to_hive(spark_type):
     if spark_type == 'StringType':
         return "string"
     elif spark_type == "LongType":
@@ -24,6 +27,5 @@ def spark_to_hive_type_mapping(spark_type):
 
 def generate_hive_table_definition(name, schema):
     create_statement_str = "CREATE TABLE {} {}"
-
-    tuples = ["({} {})".format(field.name, spark_to_hive_type_mapping(str(field.dataType))) for field in schema.fields]
-    return create_statement_str.format(name, ",".join(tuples))
+    tuples = ["{} {}".format(field.name, map_spark_types_to_hive(str(field.dataType))) for field in schema.fields]
+    return create_statement_str.format(name, "({})".format(",".join(tuples)))

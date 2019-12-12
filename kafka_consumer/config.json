@@ -1,6 +1,6 @@
 {
     "bootstrap_servers": "kafka_broker:9092",
     "topic": "loans",
-    "csv_file": "/path/to/loan.csv",
-    "min_sleep_interval": 0.5
+    "hive_table": "loans",
+    "schema": "/path/to/schema"
 }

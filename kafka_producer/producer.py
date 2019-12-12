@@ -36,12 +36,12 @@ if __name__ == "__main__":
 
     """Creating KafkaProducer instance"""
     producer = KafkaProducer(
-        bootstrap_servers=config["bootstrap.servers"],
+        bootstrap_servers=config["bootstrap_servers"],
         value_serializer=lambda m: m.encode('utf-8')
     )
 
     """Loading the data"""
-    df = pd.read_csv(config["csv_path"], low_memory=False)
+    df = pd.read_csv(config["csv_file"], low_memory=False)
 
     """Processing the dataframe"""
     df_processed = process_df(df)
