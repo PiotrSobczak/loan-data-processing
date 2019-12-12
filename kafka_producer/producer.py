@@ -7,7 +7,7 @@ from kafka import KafkaProducer
 
 from kafka_producer.iterator import Iterator
 
-TOPIC_NAME = "loans"
+TOPIC_NAME = "loans-json-dev"
 SLEEP_INTERVAL = 1
 CSV_FILE = "/home/psobczak/PycharmProjects/LoanAnalysis/loan_small.csv"
 BOOTSTRAP_SERVERS = ['localhost:9092']
@@ -16,9 +16,10 @@ BOOTSTRAP_SERVERS = ['localhost:9092']
 def process_df(df):
     assert isinstance(df, pd.DataFrame)
     df_filtered = df.dropna(how='all', axis='columns')
-    df_filtered['issue_y'] = df_filtered['issue_d'].apply(lambda x: datetime.datetime.strptime(x, '%b-%Y').year)
-    df_filtered['issue_m'] = df_filtered['issue_d'].apply(lambda x: datetime.datetime.strptime(x, '%b-%Y').month)
-    df_sorted = df_filtered.sort_values(by=['issue_y', 'issue_m'])
+    df_renamed = df_filtered.rename(columns={"Unnamed: 0": "id"})
+    df_renamed['issue_y'] = df_renamed['issue_d'].apply(lambda x: datetime.datetime.strptime(x, '%b-%Y').year)
+    df_renamed['issue_m'] = df_renamed['issue_d'].apply(lambda x: datetime.datetime.strptime(x, '%b-%Y').month)
+    df_sorted = df_renamed.sort_values(by=['issue_y', 'issue_m'])
     return df_sorted
 
 
