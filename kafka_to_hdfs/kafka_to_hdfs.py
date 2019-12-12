@@ -1,25 +1,31 @@
 import findspark
 findspark.init()
 
-#    Spark
-from pyspark import SparkContext, SparkConf
-#    Spark Streaming
-from pyspark.streaming import StreamingContext
-#    Kafka
-from pyspark.streaming.kafka import KafkaUtils
-#    json parsing
-import json
+import os
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 pyspark-shell' #org.apache.spark:spark-streaming-kafka-0-10_2.11:2.1.0,
 
+from pyspark.sql import SparkSession
 
-sc = SparkContext(appName="PythonSparkStreamingKafka_RM_01")
-sc.setLogLevel("WARN")
+spark = SparkSession \
+    .builder \
+    .appName("SSKafka") \
+    .getOrCreate()
 
-ssc = StreamingContext(sc, 1)
+# default for startingOffsets is "latest", but "earliest" allows rewind for missed alerts
+dsraw = spark \
+    .readStream \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", "localhost:9092") \
+    .option("subscribe", "loans") \
+    .option("startingOffsets", "earliest") \
+    .load()
 
-kafkaStream = KafkaUtils.createStream(ssc, 'localhost:2181', 'kafka-to-hdfs', {'loans':1})
-kafkaStream.pprint()
-# parsed = kafkaStream.map(lambda v: json.loads(v[1]))
-# parsed.count().map(lambda x:'Tweets in this batch: %s' % x).pprint()
+ds = dsraw.selectExpr("CAST(value AS STRING)")
 
-ssc.start()
-ssc.awaitTermination()
+writeQuery = ds \
+        .writeStream \
+        .format("console")\
+        .option("truncate", "false")\
+        .start()
+
+writeQuery.awaitTermination()
