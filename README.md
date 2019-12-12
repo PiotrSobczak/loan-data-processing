@@ -4,6 +4,7 @@ This project is a pipeline for stream processing and data analysis of [loan data
 
 
 ### Architecture
+<img src="https://github.com/PiotrSobczak/loan-data-analysis-pipeline/blob/master/assets/architecture.png" width="600"></img>
 
 ### Components
 - kafka producer which simulates streaming loan data
