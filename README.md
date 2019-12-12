@@ -15,7 +15,7 @@ This project is a pipeline for stream processing and data analysis of [loan data
 ### Dependencies
 - PySpark ver. >= 2.4
 - Kafka cluster ver. >= 2.0
-- Hadoop cluster with Hive ver ver. >= 1.0 (Here [hortonworks-sandbox](https://github.com/PiotrSobczak/hortonworks-sandbox-plus) was used)
+- Hadoop cluster with Hive ver. >= 1.0 ([my fork](https://github.com/PiotrSobczak/hortonworks-sandbox-plus) of hortonworks-sandbox was used)
 - Jupyter notebook
 
 
