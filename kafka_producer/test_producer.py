@@ -27,7 +27,6 @@ def test_process_df_convert():
     df = pd.DataFrame(data, columns=['issue_d', 'value'])
 
     df_processed = process_df(df)
-
-    for date_time in  df_processed["issue_d"].tolist():
-        assert isinstance(date_time, datetime.datetime)
+    assert "issue_y" in df_processed.columns
+    assert "issue_m" in df_processed.columns
 
