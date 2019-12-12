@@ -1,0 +1,6 @@
+{
+    "bootstrap.servers": "KAFKA_BROKER:9092",
+    "topic": "loans",
+    "csv_file": "/path/to/loan.csv",
+    "min_sleep_interval": 0.5
+}
