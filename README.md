@@ -1,6 +1,6 @@
 # loan-data-analysis-pipeline
 
-This project is a pipeline for stream processing and data analysis of [loan data](https://www.kaggle.com/wendykan/lending-club-loan-data).
+This project is a pipeline for stream processing and data analysis of [loan data](https://www.kaggle.com/wendykan/lending-club-loan-data) using PySpark, Kafka, Hive.
 
 
 ### Architecture
