@@ -18,6 +18,15 @@ This project is a pipeline for stream processing and data analysis of [loan data
 - Hadoop cluster with Hive ver. >= 1.0 ([my fork](https://github.com/PiotrSobczak/hortonworks-sandbox-plus) of hortonworks-sandbox was used)
 - Jupyter notebook
 
+### Environment Setup
+```
+cd <REPO_DIR>
+virtualenv -p /usr/bin/python3 venv
+. venv/bin/activate
+pip3 install -r requirements.txt
+export SPARK_HOME=`pwd`"/venv/lib/python3.7/site-packages/pyspark" # For local spark mode
+```
+
 
 ### Run kafka producer
 ```
