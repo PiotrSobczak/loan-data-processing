@@ -20,7 +20,8 @@ This project is a pipeline for stream processing and data analysis of [loan data
 
 ### Environment Setup
 ```
-cd <REPO_DIR>
+git clone git@github.com:PiotrSobczak/loan-data-processing.git
+cd loan-data-processing
 virtualenv -p /usr/bin/python3 venv
 . venv/bin/activate
 pip3 install -r requirements.txt
